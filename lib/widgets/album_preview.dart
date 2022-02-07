@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
 import 'package:flutter_test_work/models/album_model.dart';
 import 'package:flutter_test_work/models/photo_model.dart';
+import 'package:flutter_test_work/screens/album_screen.dart';
 import 'package:flutter_test_work/widgets/preloader.dart';
 
 class AlbumPreview extends StatelessWidget {
@@ -17,7 +18,7 @@ class AlbumPreview extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: FutureBuilder<PhotoModel>(
-        future: ApiJsonPlaceholder.getAlbumPreview(album.id),
+        future: ApiJsonPlaceholder.getAlbumPhotos(album.id).then((value) => value.first),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListTile(
@@ -31,6 +32,13 @@ class AlbumPreview extends StatelessWidget {
                 snapshot.data!.thumbnailUrl,
                 fit: BoxFit.fill,
               ),
+              mouseCursor: SystemMouseCursors.click,
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  AlbumScreen.routeName,
+                  arguments: AlbumScreenArgs(albumId: album.id),
+                );
+              },
             );
           } else {
             return const Preloader();

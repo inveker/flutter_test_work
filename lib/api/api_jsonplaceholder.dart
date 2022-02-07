@@ -88,17 +88,19 @@ class ApiJsonPlaceholder {
     return CommentModel.fromJson(data);
   }
 
-  static Future<PhotoModel> getAlbumPreview(int albumId) async {
+  static Future<List<PhotoModel>> getAlbumPhotos(int albumId, {int? count}) async {
     final url = Uri.https(
       domain,
       'album/$albumId/photos',
       {
         '_start': '0',
-        '_end': '1',
+        if(count != null) '_end': '$count',
       },
     );
     final response = await http.get(url);
     List data = jsonDecode(response.body);
-    return PhotoModel.fromJson(data.first);
+    return [
+      for (var i in data) PhotoModel.fromJson(i),
+    ];
   }
 }

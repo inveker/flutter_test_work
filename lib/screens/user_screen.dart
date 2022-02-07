@@ -12,7 +12,6 @@ import 'package:flutter_test_work/widgets/preloader.dart';
 import 'package:flutter_test_work/widgets/props_widget.dart';
 import 'package:flutter_test_work/widgets/simple_field.dart';
 import 'package:flutter_test_work/widgets/website_link.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class UserScreenArgs {
   final int userId;
@@ -31,19 +30,17 @@ class UserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserScreenArgs routeArgs = ModalRoute.of(context)!.settings.arguments as UserScreenArgs;
 
-    return SafeArea(
-      child: FutureBuilder<UserModel>(
-        future: ApiJsonPlaceholder.getUser(routeArgs.userId),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return _ScreenProps(
-              user: snapshot.data!,
-            );
-          } else {
-            return const Preloader();
-          }
-        },
-      ),
+    return FutureBuilder<UserModel>(
+      future: ApiJsonPlaceholder.getUser(routeArgs.userId),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return _ScreenProps(
+            user: snapshot.data!,
+          );
+        } else {
+          return const Preloader();
+        }
+      },
     );
   }
 }
@@ -61,29 +58,31 @@ class _Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     final props = context.props<_ScreenProps>();
     final user = props.user;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(user.username),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _NameField(),
-            const FieldDivider(),
-            _EmailField(),
-            const FieldDivider(),
-            _PhoneField(),
-            const FieldDivider(),
-            _WebsiteField(),
-            const FieldDivider(),
-            _WorkingField(),
-            const FieldDivider(),
-            _AddressField(),
-            const FieldDivider(),
-            _PostsFiled(),
-            const FieldDivider(),
-            _AlbumsField(),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(user.username),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _NameField(),
+              const FieldDivider(),
+              _EmailField(),
+              const FieldDivider(),
+              _PhoneField(),
+              const FieldDivider(),
+              _WebsiteField(),
+              const FieldDivider(),
+              _WorkingField(),
+              const FieldDivider(),
+              _AddressField(),
+              const FieldDivider(),
+              _PostsFiled(),
+              const FieldDivider(),
+              _AlbumsField(),
+            ],
+          ),
         ),
       ),
     );
