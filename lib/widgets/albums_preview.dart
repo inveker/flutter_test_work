@@ -7,8 +7,10 @@ import 'package:flutter_test_work/screens/album_screen.dart';
 import 'package:flutter_test_work/screens/albums_screen.dart';
 import 'package:flutter_test_work/screens/post_screen.dart';
 import 'package:flutter_test_work/screens/posts_screen.dart';
+import 'package:flutter_test_work/widgets/album_preview.dart';
 import 'package:flutter_test_work/widgets/preloader.dart';
 import 'package:flutter_test_work/widgets/props_widget.dart';
+import 'package:flutter_test_work/widgets/show_more_button.dart';
 
 class AlbumsPreview extends StatelessWidget {
   final int userId;
@@ -26,7 +28,7 @@ class AlbumsPreview extends StatelessWidget {
       future: ApiJsonPlaceholder.getAlbums(userId, count: count),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return _AlbumsPreviewProps(
+          return _AlbumsPreview(
             albums: snapshot.data!,
             userId: userId,
           );
@@ -38,80 +40,33 @@ class AlbumsPreview extends StatelessWidget {
   }
 }
 
-class _AlbumsPreviewProps extends PropsWidget {
+class _AlbumsPreview extends StatelessWidget {
   final List<AlbumModel> albums;
   final int userId;
 
-  _AlbumsPreviewProps({
+  const _AlbumsPreview({
     required this.albums,
     required this.userId,
-  }) : super(child: _AlbumsPreview());
-}
+  });
 
-class _AlbumsPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final props = context.props<_AlbumsPreviewProps>();
-    final albums = props.albums;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         for (var album in albums)
-          _AlbumPreview(
+          AlbumPreview(
             album: album,
           ),
-        _ShowMoreButton(),
-      ],
-    );
-  }
-}
-
-class _ShowMoreButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final props = context.props<_AlbumsPreviewProps>();
-    final userId = props.userId;
-    return TextButton(
-      child: const Text('Show more'),
-      onPressed: () {
-        Navigator.of(context).pushNamed(
-          AlbumsScreen.routeName,
-          arguments: AlbumsScreenArgs(userId: userId),
-        );
-      },
-    );
-  }
-}
-
-class _AlbumPreview extends StatelessWidget {
-  final AlbumModel album;
-
-  const _AlbumPreview({
-    Key? key,
-    required this.album,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: FutureBuilder<PhotoModel>(
-        future: ApiJsonPlaceholder.getAlbumPreview(album.id),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListTile(
-              contentPadding: const EdgeInsets.all(20),
-              title: Text(album.title, maxLines: 1, overflow: TextOverflow.ellipsis,),
-              leading: Image.network(
-                snapshot.data!.thumbnailUrl,
-                fit: BoxFit.fill,
-              ),
+        ShowMoreButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed(
+              AlbumsScreen.routeName,
+              arguments: AlbumsScreenArgs(userId: userId),
             );
-          } else {
-            return const Preloader();
-          }
-        },
-      ),
+          },
+        ),
+      ],
     );
   }
 }

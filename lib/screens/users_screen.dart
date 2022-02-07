@@ -4,20 +4,18 @@ import 'package:flutter_test_work/models/user_model.dart';
 import 'package:flutter_test_work/screens/user_screen.dart';
 import 'package:flutter_test_work/widgets/preloader.dart';
 
-class UsersScreen extends StatefulWidget {
+class UsersScreen extends StatelessWidget {
   static const routeName = 'users';
 
   const UsersScreen({Key? key}) : super(key: key);
 
   @override
-  State<UsersScreen> createState() => _UsersScreenState();
-}
-
-class _UsersScreenState extends State<UsersScreen> {
-  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Users'),
+        ),
         body: FutureBuilder<List<UserModel>>(
           future: ApiJsonPlaceholder.getUsers(),
           builder: (context, snapshot) {
