@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test_work/models/album_model.dart';
 import 'package:flutter_test_work/models/comment_model.dart';
+import 'package:flutter_test_work/models/photo_model.dart';
 import 'package:flutter_test_work/models/post_model.dart';
 import 'package:flutter_test_work/models/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -18,20 +19,20 @@ class ApiJsonPlaceholder {
     ];
   }
 
-  static Future<UserModel> getUser(String userId) async {
+  static Future<UserModel> getUser(int userId) async {
     final url = Uri.https(domain, 'users/$userId');
     final response = await http.get(url);
     final data = jsonDecode(response.body);
     return UserModel.fromJson(data);
   }
 
-  static Future<List<PostModel>> getPosts(String userId, {int? count}) async {
+  static Future<List<PostModel>> getPosts(int userId, {int? count}) async {
     final url = Uri.https(
       domain,
       'users/$userId/posts',
       {
-        '_start': 0,
-        if (count != null) '_end': count,
+        '_start': '0',
+        if (count != null) '_end': '$count',
       },
     );
     final response = await http.get(url);
@@ -41,20 +42,20 @@ class ApiJsonPlaceholder {
     ];
   }
 
-  static Future<PostModel> getPost(String postId) async {
+  static Future<PostModel> getPost(int postId) async {
     final url = Uri.https(domain, 'posts/$postId');
     final response = await http.get(url);
     final data = jsonDecode(response.body);
     return PostModel.fromJson(data);
   }
 
-  static Future<List<AlbumModel>> getAlbums(String userId, {int? count}) async {
+  static Future<List<AlbumModel>> getAlbums(int userId, {int? count}) async {
     final url = Uri.https(
       domain,
       'users/$userId/albums',
       {
-        '_start': 0,
-        if (count != null) '_end': count,
+        '_start': '0',
+        if (count != null) '_end': '$count',
       },
     );
     final response = await http.get(url);
@@ -64,14 +65,14 @@ class ApiJsonPlaceholder {
     ];
   }
 
-  static Future<AlbumModel> getAlbum(String albumId) async {
+  static Future<AlbumModel> getAlbum(int albumId) async {
     final url = Uri.https(domain, 'albums/$albumId');
     final response = await http.get(url);
     final data = jsonDecode(response.body);
     return AlbumModel.fromJson(data);
   }
 
-  static Future<List<CommentModel>> getComments(String postId) async {
+  static Future<List<CommentModel>> getComments(int postId) async {
     final url = Uri.https(domain, 'posts/$postId/comments');
     final response = await http.get(url);
     final data = jsonDecode(response.body);
@@ -85,5 +86,19 @@ class ApiJsonPlaceholder {
     final response = await http.get(url);
     final data = jsonDecode(response.body);
     return CommentModel.fromJson(data);
+  }
+
+  static Future<PhotoModel> getAlbumPreview(int albumId) async {
+    final url = Uri.https(
+      domain,
+      'album/$albumId/photos',
+      {
+        '_start': '0',
+        '_end': '1',
+      },
+    );
+    final response = await http.get(url);
+    List data = jsonDecode(response.body);
+    return PhotoModel.fromJson(data.first);
   }
 }

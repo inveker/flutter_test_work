@@ -11,7 +11,6 @@ class AppRouter {
   static const String initialRoute = UsersScreen.routeName;
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
-    print(settings.arguments);
     switch (settings.name) {
       case UsersScreen.routeName:
         return _buildUsersScreen(settings);

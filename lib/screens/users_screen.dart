@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
 import 'package:flutter_test_work/models/user_model.dart';
 import 'package:flutter_test_work/screens/user_screen.dart';
+import 'package:flutter_test_work/widgets/preloader.dart';
 
 class UsersScreen extends StatefulWidget {
   static const routeName = 'users';
@@ -25,7 +26,7 @@ class _UsersScreenState extends State<UsersScreen> {
                 users: snapshot.data!,
               );
             } else {
-              return const CircularProgressIndicator();
+              return const Preloader();
             }
           },
         ),
