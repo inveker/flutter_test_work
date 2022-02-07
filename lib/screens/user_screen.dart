@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
 import 'package:flutter_test_work/models/user_model.dart';
 import 'package:flutter_test_work/widgets/albums_preview.dart';
+import 'package:flutter_test_work/widgets/email_link.dart';
+import 'package:flutter_test_work/widgets/filed_divider.dart';
 import 'package:flutter_test_work/widgets/filed_title.dart';
 import 'package:flutter_test_work/widgets/multi_field.dart';
+import 'package:flutter_test_work/widgets/phone_link.dart';
 import 'package:flutter_test_work/widgets/posts_preview.dart';
 import 'package:flutter_test_work/widgets/preloader.dart';
 import 'package:flutter_test_work/widgets/props_widget.dart';
 import 'package:flutter_test_work/widgets/simple_field.dart';
+import 'package:flutter_test_work/widgets/website_link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserScreenArgs {
@@ -65,19 +69,19 @@ class _Screen extends StatelessWidget {
         child: Column(
           children: [
             _NameField(),
-            const _Divider(),
+            const FieldDivider(),
             _EmailField(),
-            const _Divider(),
+            const FieldDivider(),
             _PhoneField(),
-            const _Divider(),
+            const FieldDivider(),
             _WebsiteField(),
-            const _Divider(),
+            const FieldDivider(),
             _WorkingField(),
-            const _Divider(),
+            const FieldDivider(),
             _AddressField(),
-            const _Divider(),
+            const FieldDivider(),
             _PostsFiled(),
-            const _Divider(),
+            const FieldDivider(),
             _AlbumsField(),
           ],
         ),
@@ -153,14 +157,8 @@ class _EmailField extends StatelessWidget {
     final user = props.user;
     return SimpleField(
       title: 'Email',
-      value: TextButton(
-        child: Text(user.email),
-        onPressed: () async {
-          final url = 'mailto:${user.email}';
-          if (await canLaunch(url)) {
-            launch(url);
-          }
-        },
+      value: EmailLink(
+        email: user.email,
       ),
     );
   }
@@ -173,14 +171,8 @@ class _PhoneField extends StatelessWidget {
     final user = props.user;
     return SimpleField(
       title: 'Phone',
-      value: TextButton(
-        child: Text(user.phone),
-        onPressed: () async {
-          final url = 'tel:${user.phone}';
-          if (await canLaunch(url)) {
-            launch(url);
-          }
-        },
+      value: PhoneLink(
+        phone: user.phone,
       ),
     );
   }
@@ -193,14 +185,8 @@ class _WebsiteField extends StatelessWidget {
     final user = props.user;
     return SimpleField(
       title: 'Website',
-      value: TextButton(
-        child: Text(user.website),
-        onPressed: () async {
-          final url = 'https:${user.website}';
-          if (await canLaunch(url)) {
-            launch(url);
-          }
-        },
+      value: WebsiteLink(
+        url: user.website,
       ),
     );
   }
@@ -278,11 +264,3 @@ class _AddressField extends StatelessWidget {
   }
 }
 
-class _Divider extends StatelessWidget {
-  const _Divider({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Divider();
-  }
-}
