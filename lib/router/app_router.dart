@@ -11,6 +11,7 @@ class AppRouter {
   static const String initialRoute = UsersScreen.routeName;
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+    print(settings.arguments);
     switch (settings.name) {
       case UsersScreen.routeName:
         return _buildUsersScreen(settings);
@@ -29,12 +30,14 @@ class AppRouter {
 
   static Route<dynamic>? onUnknownRoute(RouteSettings settings) {
     return MaterialPageRoute(
+      settings: settings,
       builder: (context) => const NotFoundScreen(),
     );
   }
 
   static Route<dynamic> _buildUsersScreen(RouteSettings settings) {
     return MaterialPageRoute(
+      settings: settings,
       builder: (context) => const UsersScreen(),
     );
   }
@@ -44,7 +47,8 @@ class AppRouter {
     assert(args is UserScreenArgs);
     if (args is UserScreenArgs) {
       return MaterialPageRoute(
-        builder: (context) => const UsersScreen(),
+        settings: settings,
+        builder: (context) => const UserScreen(),
       );
     }
   }
@@ -54,6 +58,7 @@ class AppRouter {
     assert(args is PostsScreenArgs);
     if (args is PostsScreenArgs) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => const PostsScreen(),
       );
     }
@@ -64,6 +69,7 @@ class AppRouter {
     assert(args is PostScreenArgs);
     if (args is PostScreenArgs) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => const PostScreen(),
       );
     }
@@ -74,6 +80,7 @@ class AppRouter {
     assert(args is AlbumsScreenArgs);
     if (args is AlbumsScreenArgs) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => const AlbumsScreen(),
       );
     }
@@ -84,6 +91,7 @@ class AppRouter {
     assert(args is AlbumScreenArgs);
     if (args is AlbumScreenArgs) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => const AlbumScreen(),
       );
     }
