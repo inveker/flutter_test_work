@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_work/widgets/filed_title.dart';
+import 'package:flutter_test_work/widgets/data_fields/field_title.dart';
 
 class SimpleField extends StatelessWidget {
   final String title;

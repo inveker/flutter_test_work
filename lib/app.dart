@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_work/router/app_router.dart';
-import 'package:flutter_test_work/widgets/shared_preferences_provider.dart';
+import 'package:flutter_test_work/widgets/utils/shared_preferences_provider.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);

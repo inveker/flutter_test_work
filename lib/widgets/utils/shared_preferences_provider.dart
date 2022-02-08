@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_test_work/widgets/preloader.dart';
+import 'package:flutter_test_work/widgets/utils/preloader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesProvider extends StatelessWidget {

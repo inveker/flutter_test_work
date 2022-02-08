@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
 import 'package:flutter_test_work/models/comment_model.dart';
 import 'package:flutter_test_work/models/post_model.dart';
-import 'package:flutter_test_work/widgets/comment_card.dart';
-import 'package:flutter_test_work/widgets/filed_divider.dart';
-import 'package:flutter_test_work/widgets/filed_title.dart';
-import 'package:flutter_test_work/widgets/post_card.dart';
-import 'package:flutter_test_work/widgets/preloader.dart';
-import 'package:flutter_test_work/widgets/props_widget.dart';
+import 'package:flutter_test_work/widgets/full_cards/comment_card.dart';
+import 'package:flutter_test_work/widgets/data_fields/field_divider.dart';
+import 'package:flutter_test_work/widgets/data_fields/field_title.dart';
+import 'package:flutter_test_work/widgets/full_cards/post_card.dart';
+import 'package:flutter_test_work/widgets/utils/preloader.dart';
+import 'package:flutter_test_work/widgets/utils/props_widget.dart';
 
 class PostScreenArgs {
   final int postId;

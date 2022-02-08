@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
 import 'package:flutter_test_work/models/user_model.dart';
-import 'package:flutter_test_work/screens/user_screen.dart';
-import 'package:flutter_test_work/widgets/preloader.dart';
-import 'package:flutter_test_work/widgets/props_widget.dart';
-import 'package:flutter_test_work/widgets/user_preview.dart';
+import 'package:flutter_test_work/widgets/utils/preloader.dart';
+import 'package:flutter_test_work/widgets/previews/user_preview.dart';
+import 'package:flutter_test_work/widgets/utils/props_widget.dart';
 
 class UsersScreen extends StatelessWidget {
   static const routeName = 'users';

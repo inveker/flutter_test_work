@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
 import 'package:flutter_test_work/models/user_model.dart';
-import 'package:flutter_test_work/widgets/albums_preview.dart';
-import 'package:flutter_test_work/widgets/email_link.dart';
-import 'package:flutter_test_work/widgets/filed_divider.dart';
-import 'package:flutter_test_work/widgets/filed_title.dart';
-import 'package:flutter_test_work/widgets/multi_field.dart';
-import 'package:flutter_test_work/widgets/phone_link.dart';
-import 'package:flutter_test_work/widgets/posts_preview.dart';
-import 'package:flutter_test_work/widgets/preloader.dart';
-import 'package:flutter_test_work/widgets/props_widget.dart';
-import 'package:flutter_test_work/widgets/simple_field.dart';
-import 'package:flutter_test_work/widgets/website_link.dart';
+import 'package:flutter_test_work/widgets/previews/albums_preview.dart';
+import 'package:flutter_test_work/widgets/buttons/email_link.dart';
+import 'package:flutter_test_work/widgets/data_fields/field_divider.dart';
+import 'package:flutter_test_work/widgets/data_fields/field_title.dart';
+import 'package:flutter_test_work/widgets/data_fields/multi_field.dart';
+import 'package:flutter_test_work/widgets/buttons/phone_link.dart';
+import 'package:flutter_test_work/widgets/previews/posts_preview.dart';
+import 'package:flutter_test_work/widgets/utils/preloader.dart';
+import 'package:flutter_test_work/widgets/data_fields/simple_field.dart';
+import 'package:flutter_test_work/widgets/buttons/website_link.dart';
+import 'package:flutter_test_work/widgets/utils/props_widget.dart';
 
 class UserScreenArgs {
   final int userId;

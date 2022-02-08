@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_work/models/photo_model.dart';
 import 'package:flutter_test_work/screens/carousel_screen.dart';
-import 'package:flutter_test_work/widgets/carousel.dart';
+import 'package:flutter_test_work/widgets/images/carousel.dart';
 
 import 'cached_network_image.dart';
 

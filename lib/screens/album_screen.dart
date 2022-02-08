@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
 import 'package:flutter_test_work/models/album_model.dart';
 import 'package:flutter_test_work/models/photo_model.dart';
-import 'package:flutter_test_work/widgets/gallery.dart';
-import 'package:flutter_test_work/widgets/preloader.dart';
+import 'package:flutter_test_work/widgets/images/gallery.dart';
+import 'package:flutter_test_work/widgets/utils/preloader.dart';
 
 class AlbumScreenArgs {
   final int albumId;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_work/models/comment_model.dart';
-import 'package:flutter_test_work/widgets/email_link.dart';
-import 'package:flutter_test_work/widgets/filed_divider.dart';
-import 'package:flutter_test_work/widgets/filed_title.dart';
+import 'package:flutter_test_work/widgets/buttons/email_link.dart';
+import 'package:flutter_test_work/widgets/data_fields/field_divider.dart';
+import 'package:flutter_test_work/widgets/data_fields/field_title.dart';
 
 class CommentCard extends StatelessWidget {
   final CommentModel comment;

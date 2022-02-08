@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
 import 'package:flutter_test_work/models/album_model.dart';
-import 'package:flutter_test_work/models/photo_model.dart';
-import 'package:flutter_test_work/models/post_model.dart';
-import 'package:flutter_test_work/screens/album_screen.dart';
 import 'package:flutter_test_work/screens/albums_screen.dart';
-import 'package:flutter_test_work/screens/post_screen.dart';
-import 'package:flutter_test_work/screens/posts_screen.dart';
-import 'package:flutter_test_work/widgets/album_preview.dart';
-import 'package:flutter_test_work/widgets/preloader.dart';
-import 'package:flutter_test_work/widgets/props_widget.dart';
-import 'package:flutter_test_work/widgets/show_more_button.dart';
+import 'package:flutter_test_work/widgets/previews/album_preview.dart';
+import 'package:flutter_test_work/widgets/utils/preloader.dart';
+import 'package:flutter_test_work/widgets/buttons/show_more_button.dart';
 
 class AlbumsPreview extends StatelessWidget {
   final int userId;
