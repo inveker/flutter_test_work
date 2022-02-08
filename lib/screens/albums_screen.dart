@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
+import 'package:flutter_test_work/models/album_model.dart';
+import 'package:flutter_test_work/widgets/album_preview.dart';
+import 'package:flutter_test_work/widgets/preloader.dart';
 
 class AlbumsScreenArgs {
   final int userId;
@@ -21,10 +25,43 @@ class AlbumsScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        body: Center(
-          child: Text('Albums Screen ${routeArgs.userId}'),
+        appBar: AppBar(
+          title: const Text('Albums'),
+        ),
+        body: FutureBuilder<List<AlbumModel>>(
+          future: ApiJsonPlaceholder.getAlbums(routeArgs.userId),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return _AlbumsList(
+                albums: snapshot.data!,
+              );
+            } else {
+              return const Preloader();
+            }
+          },
         ),
       ),
+    );
+  }
+}
+
+
+class _AlbumsList extends StatelessWidget {
+  final List<AlbumModel> albums;
+
+  const _AlbumsList({
+    Key? key,
+    required this.albums,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: albums.length,
+      itemBuilder: (context, index) {
+        final album = albums[index];
+        return AlbumPreview(album: album);
+      },
     );
   }
 }

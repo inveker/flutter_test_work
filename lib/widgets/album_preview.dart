@@ -41,7 +41,11 @@ class AlbumPreview extends StatelessWidget {
               },
             );
           } else {
-            return const Preloader();
+            return const SizedBox(
+              width: 352.7,
+              height: 104,
+              child: Preloader(),
+            );
           }
         },
       ),
