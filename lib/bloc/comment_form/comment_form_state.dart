@@ -1,42 +1,55 @@
 part of 'comment_form_bloc.dart';
 
+enum CommentFormStateStatus {
+  initial,
+  sent,
+  loading,
+  success
+}
+
 class CommentFormState extends Equatable {
   final String name;
-  final String nameError;
+  final String? nameError;
   final String email;
-  final String emailError;
+  final String? emailError;
   final String body;
-  final String bodyError;
+  final String? bodyError;
+  final CommentFormStateStatus status;
 
   const CommentFormState({
     this.name = '',
-    this.nameError = '',
+    this.nameError,
     this.email = '',
-    this.emailError = '',
+    this.emailError,
     this.body = '',
-    this.bodyError = '',
+    this.bodyError,
+    this.status = CommentFormStateStatus.initial,
   });
 
   CommentFormState copyWith({
     String? name,
-    String? nameError,
+    Nullable<String>? nameError,
     String? email,
-    String? emailError,
+    Nullable<String>? emailError,
     String? body,
-    String? bodyError,
+    Nullable<String>? bodyError,
+    CommentFormStateStatus? status,
   }) {
     return CommentFormState(
       name: name ?? this.name,
-      nameError: nameError ?? this.name,
+      nameError: nameError != null ? nameError.value : this.nameError,
       email: email ?? this.email,
-      emailError: emailError ?? this.emailError,
+      emailError: emailError != null ? emailError.value : this.emailError,
       body: body ?? this.body,
-      bodyError: bodyError ?? this.bodyError,
+      bodyError: bodyError != null ? bodyError.value : this.bodyError,
+      status: status ?? this.status,
     );
   }
 
+  bool get isSent => status == CommentFormStateStatus.sent;
+
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       name,
       nameError,
@@ -44,6 +57,7 @@ class CommentFormState extends Equatable {
       emailError,
       body,
       bodyError,
+      status,
     ];
   }
 }

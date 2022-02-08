@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_work/models/photo_model.dart';
 import 'package:flutter_test_work/widgets/images/cached_network_image.dart';
+import 'package:flutter_test_work/widgets/utils/preloader.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class Carousel extends StatelessWidget {
@@ -53,9 +54,7 @@ class Carousel extends StatelessWidget {
       },
       itemCount: photos.length,
       loadingBuilder: (context, event) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Preloader(bgColor: Colors.transparent,);
       },
       pageController: PageController(
         initialPage: position,

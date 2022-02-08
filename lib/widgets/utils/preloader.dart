@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Preloader extends StatelessWidget {
-  const Preloader({Key? key}) : super(key: key);
+  final Color bgColor;
+
+  const Preloader({
+    Key? key,
+    this.bgColor = Colors.white,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: bgColor,
       child: const Center(
         child: CircularProgressIndicator(),
       ),

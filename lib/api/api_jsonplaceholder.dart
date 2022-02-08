@@ -104,10 +104,34 @@ class ApiJsonPlaceholder {
     ];
   }
 
-  static Future<CommentModel> createComment(CommentModel commentModel) async {
+  static Future<CommentModel> createComment({
+    required int postId,
+    required String name,
+    required String email,
+    required String body,
+  }) async {
     final url = Uri.https(domain, 'comments');
-    final response = await http.get(url);
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'postId': postId,
+        'name': name,
+        'email': email,
+        'body': body,
+      }),
+    );
     final data = jsonDecode(response.body);
+
+    final prefs = await SharedPreferences.getInstance();
+    final cacheKey = 'comments:$postId';
+    var savedData = prefs.getString(cacheKey) ?? '{}';
+    List json = jsonDecode(savedData);
+    json.add(data);
+    await prefs.setString(cacheKey, jsonEncode(json));
+
     return CommentModel.fromJson(data);
   }
 
@@ -135,7 +159,7 @@ class _Cache {
   static Future<String> wrapper(String cacheKey, Future<String> Function() createCallback) async {
     final prefs = await SharedPreferences.getInstance();
     var savedData = prefs.getString(cacheKey);
-    if(savedData == null) {
+    if (savedData == null) {
       var data = await createCallback();
       await prefs.setString(cacheKey, data);
       savedData = data;

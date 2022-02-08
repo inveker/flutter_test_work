@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
+import 'package:flutter_test_work/bloc/comment_form/comment_form_bloc.dart';
 import 'package:flutter_test_work/models/comment_model.dart';
 import 'package:flutter_test_work/models/post_model.dart';
+import 'package:flutter_test_work/widgets/forms/comment_form.dart';
 import 'package:flutter_test_work/widgets/full_cards/comment_card.dart';
 import 'package:flutter_test_work/widgets/data_fields/field_divider.dart';
 import 'package:flutter_test_work/widgets/data_fields/field_title.dart';
@@ -26,22 +29,47 @@ class PostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostScreenArgs routeArgs = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as PostScreenArgs;
+    final PostScreenArgs routeArgs = ModalRoute.of(context)!.settings.arguments as PostScreenArgs;
 
     return SafeArea(
-      child: FutureBuilder<PostModel>(
-        future: ApiJsonPlaceholder.getPost(routeArgs.postId),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return _ScreenProps(
-              post: snapshot.data!,
-            );
-          } else {
-            return const Preloader();
-          }
+      child: _Bloc(
+        postId: routeArgs.postId,
+        builder: (context) => FutureBuilder<PostModel>(
+          future: ApiJsonPlaceholder.getPost(routeArgs.postId),
+          builder: (context, snapshot) {
+            print('NEW SNAPSHOT');
+            if (snapshot.hasData) {
+              return _ScreenProps(
+                post: snapshot.data!,
+              );
+            } else {
+              return const Preloader();
+            }
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _Bloc extends StatelessWidget {
+  final int postId;
+  final Widget Function(BuildContext) builder;
+
+  const _Bloc({
+    Key? key,
+    required this.builder,
+    required this.postId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => CommentFormBloc(postId: postId),
+      child: BlocBuilder<CommentFormBloc, CommentFormState>(
+        buildWhen: (p, n) => p.status != n.status && n.status == CommentFormStateStatus.success,
+        builder: (context, state) {
+          return builder(context);
         },
       ),
     );
@@ -77,6 +105,11 @@ class _Screen extends StatelessWidget {
             ),
             const FieldDivider(),
             _CommentsField(),
+            const FieldDivider(),
+            CommentForm(
+              postId: post.id,
+              bloc: context.read<CommentFormBloc>(),
+            ),
           ],
         ),
       ),
@@ -84,10 +117,7 @@ class _Screen extends StatelessWidget {
   }
 }
 
-
 class _CommentsField extends StatelessWidget {
-  const _CommentsField({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final props = context.props<_ScreenProps>();
@@ -100,7 +130,9 @@ class _CommentsField extends StatelessWidget {
           const FieldTitle(
             title: 'Comments',
           ),
-          const SizedBox(height: 16,),
+          const SizedBox(
+            height: 16,
+          ),
           FutureBuilder<List<CommentModel>>(
             future: ApiJsonPlaceholder.getComments(post.id),
             builder: (context, snapshot) {
@@ -109,7 +141,7 @@ class _CommentsField extends StatelessWidget {
                   comments: snapshot.data!,
                 );
               } else {
-                return const Preloader();
+                return const Preloader(bgColor: Colors.transparent);
               }
             },
           ),
@@ -131,7 +163,7 @@ class _CommentsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for(var comment in comments)
+        for (var comment in comments)
           CommentCard(
             comment: comment,
           ),
@@ -139,4 +171,3 @@ class _CommentsList extends StatelessWidget {
     );
   }
 }
-

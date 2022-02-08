@@ -2,37 +2,45 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
+import 'package:flutter_test_work/utils/nullable.dart';
 
 part 'comment_form_event.dart';
+
 part 'comment_form_state.dart';
 
 class CommentFormBloc extends Bloc<CommentFormEvent, CommentFormState> {
-  CommentFormBloc() : super(CommentFormState()) {
+  final int postId;
+
+  CommentFormBloc({
+    required this.postId,
+  }) : super(CommentFormState()) {
     on<CommentFormNameChanged>(_changeName);
     on<CommentFormEmailChanged>(_changeEmail);
     on<CommentFormBodyChanged>(_changeBody);
     on<CommentFormSubmitted>(_submit);
+    on<CommentFormReset>(_reset);
   }
 
   String? _nameValidation(String value) {
-    if(value.isEmpty) return 'Field is required';
+    if (value.isEmpty) return 'Field is required';
   }
 
   String? _emailValidation(String value) {
-    if(value.isEmpty) return 'Field is required';
-    if(!value.contains('@')) return 'Wrong email address';
+    if (value.isEmpty) return 'Field is required';
+    if (!value.contains('@')) return 'Wrong email address';
   }
 
   String? _bodyValidation(String value) {
-    if(value.isEmpty) return 'Field is required';
-    if(!value.contains('@')) return 'Wrong email address';
+    if (value.isEmpty) return 'Field is required';
+    if (value.length > 200) return 'Max comment length = 200';
   }
 
   void _changeName(CommentFormNameChanged event, Emitter<CommentFormState> emit) {
     final name = event.value;
     emit(state.copyWith(
       name: name,
-      nameError: _nameValidation(name),
+      nameError: state.isSent ? Nullable(_nameValidation(name)) : null,
     ));
   }
 
@@ -40,7 +48,7 @@ class CommentFormBloc extends Bloc<CommentFormEvent, CommentFormState> {
     final email = event.value;
     emit(state.copyWith(
       email: email,
-      nameError: _emailValidation(email),
+      emailError: state.isSent ? Nullable(_emailValidation(email)) : null,
     ));
   }
 
@@ -48,24 +56,49 @@ class CommentFormBloc extends Bloc<CommentFormEvent, CommentFormState> {
     final body = event.value;
     emit(state.copyWith(
       body: body,
-      nameError: _bodyValidation(body),
+      bodyError: state.isSent ? Nullable(_bodyValidation(body)) : null,
     ));
   }
 
-  void _submit(CommentFormSubmitted event, Emitter<CommentFormState> emit) {
+  Future<void> _submit(CommentFormSubmitted event, Emitter<CommentFormState> emit) async {
     final nameError = _nameValidation(state.name);
-    final emailError = _nameValidation(state.email);
-    final bodyError = _nameValidation(state.body);
+    final emailError = _emailValidation(state.email);
+    final bodyError = _bodyValidation(state.body);
 
     var newState = state.copyWith(
-      nameError: nameError,
-      emailError: emailError,
-      bodyError: bodyError,
+      status: CommentFormStateStatus.sent,
+      nameError: Nullable(nameError),
+      emailError: Nullable(emailError),
+      bodyError: Nullable(bodyError),
     );
     emit(newState);
 
-    if([nameError, emailError, bodyError].every((i) => i == null)) {
-      //TODO: Submit form
+    print([nameError, emailError, bodyError].every((i) => i == null));
+
+    if ([nameError, emailError, bodyError].every((i) => i == null)) {
+      try {
+        emit(newState.copyWith(
+          status: CommentFormStateStatus.loading,
+        ));
+        var comment = await ApiJsonPlaceholder.createComment(
+          postId: postId,
+          name: newState.name,
+          email: newState.email,
+          body: newState.body,
+        );
+        emit(newState.copyWith(
+          status: CommentFormStateStatus.success,
+        ));
+      } catch (e) {
+        print(e);
+        emit(newState.copyWith(
+          status: CommentFormStateStatus.sent,
+        ));
+      }
     }
+  }
+
+  void _reset(CommentFormReset event, Emitter<CommentFormState> emit) {
+    emit(CommentFormState());
   }
 }

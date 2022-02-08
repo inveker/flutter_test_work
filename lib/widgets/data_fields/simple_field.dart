@@ -21,6 +21,7 @@ class SimpleField extends StatelessWidget {
           FieldTitle(
             title: title,
           ),
+          const SizedBox(width: 16,),
           Flexible(
             child: DefaultTextStyle(
               style: const TextStyle(

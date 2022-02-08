@@ -25,3 +25,7 @@ class CommentFormBodyChanged extends CommentFormEvent {
 class CommentFormSubmitted extends CommentFormEvent {
   const CommentFormSubmitted();
 }
+
+class CommentFormReset extends CommentFormEvent {
+  const CommentFormReset();
+}
