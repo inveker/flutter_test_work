@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_work/screens/album_screen.dart';
 import 'package:flutter_test_work/screens/albums_screen.dart';
+import 'package:flutter_test_work/screens/carousel_screen.dart';
 import 'package:flutter_test_work/screens/not_found_screen.dart';
 import 'package:flutter_test_work/screens/post_screen.dart';
 import 'package:flutter_test_work/screens/posts_screen.dart';
@@ -24,6 +25,8 @@ class AppRouter {
         return _buildAlbumsScreen(settings);
       case AlbumScreen.routeName:
         return _buildAlbumScreen(settings);
+      case CarouselScreen.routeName:
+        return _buildCarouselScreen(settings);
     }
   }
 
@@ -92,6 +95,17 @@ class AppRouter {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => const AlbumScreen(),
+      );
+    }
+  }
+
+  static Route<dynamic>? _buildCarouselScreen(RouteSettings settings) {
+    final args = settings.arguments;
+    assert(args is CarouselScreenArgs);
+    if (args is CarouselScreenArgs) {
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const CarouselScreen(),
       );
     }
   }

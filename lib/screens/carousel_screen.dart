@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_work/api/api_jsonplaceholder.dart';
-import 'package:flutter_test_work/models/album_model.dart';
 import 'package:flutter_test_work/models/photo_model.dart';
-import 'package:flutter_test_work/widgets/gallery.dart';
+import 'package:flutter_test_work/widgets/carousel.dart';
 import 'package:flutter_test_work/widgets/preloader.dart';
 
-class AlbumScreenArgs {
+class CarouselScreenArgs {
   final int albumId;
+  final int position;
 
-  AlbumScreenArgs({
+  CarouselScreenArgs({
     required this.albumId,
+    required this.position,
   });
 }
 
-class AlbumScreen extends StatelessWidget {
-  static const routeName = 'album';
+class CarouselScreen extends StatelessWidget {
+  static const routeName = 'carousel';
 
-  const AlbumScreen({
+  const CarouselScreen({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final AlbumScreenArgs routeArgs = ModalRoute.of(context)!.settings.arguments as AlbumScreenArgs;
+    final CarouselScreenArgs routeArgs = ModalRoute
+        .of(context)!
+        .settings
+        .arguments as CarouselScreenArgs;
 
-    return FutureBuilder<List>(
-      future: Future.wait([
-        ApiJsonPlaceholder.getAlbum(routeArgs.albumId),
-        ApiJsonPlaceholder.getAlbumPhotos(routeArgs.albumId),
-      ]),
+    return FutureBuilder<List<PhotoModel>>(
+      future: ApiJsonPlaceholder.getAlbumPhotos(routeArgs.albumId),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return _Screen(
-            album: snapshot.data![0],
-            photos: snapshot.data![1],
+            photos: snapshot.data!,
+            position: routeArgs.position,
           );
         } else {
           return const Preloader();
@@ -44,13 +45,13 @@ class AlbumScreen extends StatelessWidget {
 }
 
 class _Screen extends StatelessWidget {
-  final AlbumModel album;
   final List<PhotoModel> photos;
+  final int position;
 
   const _Screen({
     Key? key,
-    required this.album,
     required this.photos,
+    required this.position,
   }) : super(key: key);
 
   @override
@@ -58,15 +59,11 @@ class _Screen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Album: ${album.title}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          title: const Text('Carousel'),
         ),
-        body: Gallery(
+        body: Carousel(
           photos: photos,
-          albumId: album.id,
+          position: position,
         ),
       ),
     );
