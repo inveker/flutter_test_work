@@ -11,8 +11,14 @@ class NotFoundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Center(
-          child: Text('Not found'),
+        appBar: AppBar(
+          title: const Text('Not found'),
+        ),
+        body: const Center(
+          child: Text(
+            '404',
+            style: TextStyle(fontSize: 24),
+          ),
         ),
       ),
     );

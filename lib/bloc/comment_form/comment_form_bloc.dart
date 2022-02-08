@@ -56,7 +56,7 @@ class CommentFormBloc extends Bloc<CommentFormEvent, CommentFormState> {
     final body = event.value;
     emit(state.copyWith(
       body: body,
-      bodyError: state.isSent ? Nullable(_bodyValidation(body)) : null,
+      bodyError: Nullable(_bodyValidation(body)),
     ));
   }
 
@@ -72,8 +72,6 @@ class CommentFormBloc extends Bloc<CommentFormEvent, CommentFormState> {
       bodyError: Nullable(bodyError),
     );
     emit(newState);
-
-    print([nameError, emailError, bodyError].every((i) => i == null));
 
     if ([nameError, emailError, bodyError].every((i) => i == null)) {
       try {

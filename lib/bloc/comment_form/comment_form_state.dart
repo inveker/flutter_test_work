@@ -16,7 +16,7 @@ class CommentFormState extends Equatable {
   final String? bodyError;
   final CommentFormStateStatus status;
 
-  const CommentFormState({
+  CommentFormState({
     this.name = '',
     this.nameError,
     this.email = '',

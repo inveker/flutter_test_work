@@ -16,7 +16,7 @@ class CommentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,7 +25,9 @@ class CommentCard extends StatelessWidget {
             Text(comment.name),
             Row(
               children: [
-                FieldTitle(title: 'Email: '),
+                const FieldTitle(
+                  title: 'Email: ',
+                ),
                 EmailLink(
                   email: comment.email,
                 ),

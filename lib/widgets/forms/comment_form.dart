@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_work/bloc/comment_form/comment_form_bloc.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 
 class CommentForm extends StatelessWidget {
   final int postId;
@@ -83,7 +83,7 @@ class _Form extends StatelessWidget {
 class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       'Add comment',
       textAlign: TextAlign.center,
       style: TextStyle(
@@ -103,7 +103,7 @@ class _NameInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           onChanged: (value) {
-            context.read<CommentFormBloc>().add(CommentFormNameChanged(value));
+            context.read<CommentFormBloc>().add(CommentFormNameChanged(value.trim()));
           },
           decoration: InputDecoration(
             labelText: 'Your name',
@@ -123,7 +123,7 @@ class _EmailInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           onChanged: (value) {
-            context.read<CommentFormBloc>().add(CommentFormEmailChanged(value));
+            context.read<CommentFormBloc>().add(CommentFormEmailChanged(value.trim()));
           },
           decoration: InputDecoration(
             labelText: 'Email',
@@ -143,12 +143,13 @@ class _BodyInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           onChanged: (value) {
-            context.read<CommentFormBloc>().add(CommentFormBodyChanged(value));
+            context.read<CommentFormBloc>().add(CommentFormBodyChanged(value.trim()));
           },
           decoration: InputDecoration(
             labelText: 'Commentary',
             errorText: state.bodyError,
           ),
+          maxLines: null,
         );
       },
     );
@@ -159,10 +160,9 @@ class _SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: Text('Send'),
+      child: const Text('Send'),
       onPressed: () {
-        print("CLICK SUMBIT");
-        context.read<CommentFormBloc>().add(CommentFormSubmitted());
+        context.read<CommentFormBloc>().add(const CommentFormSubmitted());
       },
     );
   }

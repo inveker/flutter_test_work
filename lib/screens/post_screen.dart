@@ -37,7 +37,6 @@ class PostScreen extends StatelessWidget {
         builder: (context) => FutureBuilder<PostModel>(
           future: ApiJsonPlaceholder.getPost(routeArgs.postId),
           builder: (context, snapshot) {
-            print('NEW SNAPSHOT');
             if (snapshot.hasData) {
               return _ScreenProps(
                 post: snapshot.data!,
